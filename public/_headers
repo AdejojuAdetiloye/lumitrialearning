@@ -1,0 +1,17 @@
+# Netlify Headers (if deploying to Netlify)
+# This ensures proper CORS headers in production
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Allow CORS for API endpoints (if needed)
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization
+
+# Checkout runs on Flutterwave (https://checkout.flutterwave.com) after redirect from the app.
+

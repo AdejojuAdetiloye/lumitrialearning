@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64" fill="none" role="img" aria-label="Lumitria">
+  <title>Lumitria</title>
+  <defs>
+    <linearGradient id="lumLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+    <linearGradient id="lumLogoSun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(4 8) scale(1.1666667)">
+    <rect width="48" height="48" rx="13" fill="url(#lumLogoBg)"/>
+    <circle cx="24" cy="12" r="3.75" fill="url(#lumLogoSun)"/>
+    <g stroke="#fffbeb" stroke-width="1.25" stroke-linecap="round" opacity="0.92">
+      <path d="M24 5.5v2.5"/>
+      <path d="M16.5 12.5h-2.5"/>
+      <path d="M31.5 12.5h2.5"/>
+      <path d="M18.5 7.5l-1.75-1.75"/>
+      <path d="M29.5 7.5l1.75-1.75"/>
+    </g>
+    <path fill="#ffffff" d="M14 17h4v13h16v4H14V17z"/>
+  </g>
+  <text
+    x="72"
+    y="42"
+    font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+    font-size="26"
+    font-weight="700"
+    letter-spacing="-0.02em"
+    fill="#292524"
+  >
+    Lumitria
+  </text>
+</svg>
