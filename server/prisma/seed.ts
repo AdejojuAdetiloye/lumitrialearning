@@ -57,7 +57,7 @@ async function main() {
   const adminPassword = (process.env.ADMIN_PASSWORD ?? "ChangeMeAdmin123!").trim();
   const hash = await bcrypt.hash(adminPassword, 12);
 
-  await prisma.user.upsert({
+  const adminUser = await prisma.user.upsert({
     where: { email: adminEmail },
     update: { passwordHash: hash, role: Role.ADMIN },
     create: {
@@ -66,6 +66,20 @@ async function main() {
       role: Role.ADMIN,
     },
   });
+
+  const adminFirstName = process.env.ADMIN_FIRST_NAME?.trim();
+  const adminLastName = process.env.ADMIN_LAST_NAME?.trim();
+  if (adminFirstName && adminLastName) {
+    await prisma.staffProfile.upsert({
+      where: { userId: adminUser.id },
+      update: { firstName: adminFirstName, lastName: adminLastName },
+      create: {
+        userId: adminUser.id,
+        firstName: adminFirstName,
+        lastName: adminLastName,
+      },
+    });
+  }
 
   const seedParentEmail = process.env.SEED_PARENT_EMAIL?.trim().toLowerCase();
   const seedParentPassword = process.env.SEED_PARENT_PASSWORD?.trim();

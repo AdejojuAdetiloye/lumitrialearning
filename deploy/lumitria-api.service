@@ -1,0 +1,17 @@
+# Install: cp deploy/lumitria-api.service /etc/systemd/system/lumitria-api.service
+# systemctl daemon-reload && systemctl enable --now lumitria-api
+
+[Unit]
+Description=Lumitria API (Express + Prisma)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/lumitrialearning/server
+EnvironmentFile=/var/www/lumitrialearning/server/.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
