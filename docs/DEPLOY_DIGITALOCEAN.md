@@ -10,7 +10,11 @@ Repository: [lumitrialearning](https://github.com/AdejojuAdetiloye/lumitrialearn
 
 ## 1. DNS
 
-Point **A records** for `lumitrialearning.org` and `www.lumitrialearning.org` to your droplet IP before running Certbot.
+Point **A records** for `lumitrialearning.org` and `www.lumitrialearning.org` to your **droplet’s public IP** before running Certbot.
+
+If DNS still points elsewhere, Let’s Encrypt will fail (the challenge hits whatever IP the domain resolves to). After updating DNS, wait for propagation, then run Certbot again.
+
+Until HTTPS is enabled, the app is available over **HTTP** on the droplet IP (the sample Nginx config uses `default_server` on port 80 so `/` and `/api` work when you open `http://YOUR_DROPLET_IP`).
 
 ## 2. First-time server setup (SSH as root)
 
