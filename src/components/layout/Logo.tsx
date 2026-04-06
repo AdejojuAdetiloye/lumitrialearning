@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
 
 interface LogoProps {
+  /** Hidden by default — `lumitria.png` already includes wordmark. */
   showText?: boolean;
+  /** `sm` = footer / compact; `md` = main header (default); `lg` = extra prominence. */
   size?: "sm" | "md" | "lg";
   className?: string;
   textClassName?: string;
 }
 
-const Logo = ({ showText = true, size = "md", className = "", textClassName = "" }: LogoProps) => {
+const Logo = ({ showText = false, size = "md", className = "", textClassName = "" }: LogoProps) => {
   const sizeClasses = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-12 h-12",
+    sm: "h-10 w-10 sm:h-11 sm:w-11",
+    md: "h-12 w-12 min-h-[48px] min-w-[48px] sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]",
+    lg: "h-14 w-14 sm:h-16 sm:w-16 md:h-[4.75rem] md:w-[4.75rem] lg:h-20 lg:w-20",
   };
 
   const textSizeClasses = {
@@ -23,15 +25,20 @@ const Logo = ({ showText = true, size = "md", className = "", textClassName = ""
   const defaultTextClass = textClassName || "text-foreground";
 
   return (
-    <Link to="/" className={`group flex items-center gap-2 ${className}`}>
+    <Link
+      to="/"
+      className={`group flex shrink-0 items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 rounded-xl ${className}`}
+    >
       <div
-        className={`${sizeClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-button ring-2 ring-primary/20 transition-all duration-500 group-hover:shadow-glow group-hover:ring-primary/40`}
+        className={`${sizeClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-background p-1 shadow-md ring-1 ring-primary/20 transition-all duration-300 group-hover:shadow-lg group-hover:ring-primary/35 sm:p-1.5`}
       >
         <img
-          src="/logo-icon.svg"
-          alt=""
-          className="h-full w-full object-contain"
-          aria-hidden
+          src="/images/lumitria.png"
+          alt="Lumitria Learning"
+          className="h-full w-full object-contain object-center"
+          width={180}
+          height={180}
+          decoding="async"
         />
       </div>
       {showText && (
@@ -44,4 +51,3 @@ const Logo = ({ showText = true, size = "md", className = "", textClassName = ""
 };
 
 export default Logo;
-

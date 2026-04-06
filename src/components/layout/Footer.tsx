@@ -37,7 +37,7 @@ const Footer = () => {
 
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14">
           <div className="space-y-5">
-            <Logo size="md" textClassName="text-background" />
+            <Logo size="sm" />
             <p className="text-sm leading-[1.7] text-background/75">
               Expert tutors helping Nigerian children abroad excel through quality education and cultural connection.
             </p>

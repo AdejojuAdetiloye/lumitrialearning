@@ -60,8 +60,8 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-[1280px]">
-        <div className="flex items-center justify-between h-16 md:h-[4.25rem]">
-          <Logo />
+        <div className="flex min-h-[4.25rem] items-center justify-between gap-3 py-2 md:min-h-[4.5rem] md:gap-4 md:py-2.5">
+          <Logo size="md" className="min-w-0" />
 
           <nav className="hidden md:flex items-center gap-10" aria-label="Main">
             {navLinks.map((link) => {

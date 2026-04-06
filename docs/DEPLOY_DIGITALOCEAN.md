@@ -65,7 +65,7 @@ CORS_ORIGINS="https://lumitrialearning.org,https://www.lumitrialearning.org"
 **Admin bootstrap (used by `npm run db:seed` in `server/`):**
 
 ```env
-ADMIN_EMAIL="lumitrialearning@gmail.com"
+ADMIN_EMAIL="info@lumitrialearning.org"
 ADMIN_PASSWORD="your-secure-password"
 ADMIN_FIRST_NAME="Fidelis"
 ADMIN_LAST_NAME="Opuole"
