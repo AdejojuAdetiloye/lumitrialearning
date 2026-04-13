@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote, Play, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -46,71 +46,94 @@ const locationFlag = (location: string) => {
   return "🌍";
 };
 
-const getYouTubeEmbedUrl = (url: string): string => {
-  if (!url) return "";
-  if (url.includes("youtube.com/embed")) return url;
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-    /youtube\.com\/v\/([^&\n?#]+)/,
-  ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return `https://www.youtube.com/embed/${match[1]}?rel=0&modestbranding=1`;
-    }
-  }
-  return url;
+type Instructor = {
+  id: string;
+  name: string;
+  subject: string;
+  imageSrc?: string;
+  placeholder?: boolean;
 };
 
-const getYouTubeThumbnail = (url: string): string => {
-  if (!url) return "";
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-    /youtube\.com\/v\/([^&\n?#]+)/,
+const instructorTriLines = (instructor: Instructor) => {
+  const lines = [
+    {
+      key: "name",
+      text: instructor.name,
+      className: "w-[94%] font-semibold text-foreground text-[13px] leading-tight md:text-sm",
+    },
+    {
+      key: "subject",
+      text: instructor.subject,
+      className:
+        "w-[72%] text-[11px] leading-snug text-muted-foreground md:text-xs line-clamp-2 break-words",
+    },
   ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
-    }
+  if (instructor.placeholder) {
+    lines.push({
+      key: "soon",
+      text: "Details coming soon",
+      className: "w-[56%] text-[10px] text-muted-foreground/80",
+    });
   }
-  return "";
+  return lines;
 };
-
-const videoTestimonials = [
-  {
-    name: "Adaeze Okonkwo",
-    location: "London, UK",
-    child: "Mom of David, 11",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    thumbnail: "",
-  },
-  {
-    name: "Chukwuma Eze",
-    location: "Toronto, Canada",
-    child: "Dad of Amara, 9",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    thumbnail: "",
-  },
-  {
-    name: "Folake Adeyemi",
-    location: "Houston, USA",
-    child: "Mom of Tunde, 13",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    thumbnail: "",
-  },
-];
 
 const TestimonialsSection = () => {
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
-  const handleVideoClick = (videoUrl: string) => {
-    setSelectedVideo(getYouTubeEmbedUrl(videoUrl));
-  };
+  const instructors: Instructor[] = useMemo(
+    () => [
+      {
+        id: "nathaniel",
+        name: "Nathaniel Udofa",
+        subject: "French Tutor",
+        imageSrc: "/images/mr-nath.png",
+      },
+      {
+        id: "dosu",
+        name: "Dosu Kingsley",
+        subject: "Physics and Mathematics",
+        imageSrc: "/images/kingsley.png",
+      },
+      {
+        id: "adejoju",
+        name: "Adejoju Taiwo",
+        subject: "Coding",
+        imageSrc: "/images/taiwo.png",
+      },
+      {
+        id: "victor",
+        name: "Victor",
+        subject: "Yoruba & Graphics Design",
+        imageSrc: "/images/victor.jpeg",
+      },
+      {
+        id: "fidelis",
+        name: "Fidelis Ipuole",
+        subject: "Chemistry & Biology",
+        imageSrc: "/images/fidelis.jpeg",
+      },
+      {
+        id: "azegba",
+        name: "Azegba James",
+        subject: "Igbo",
+        imageSrc: "/images/james.png",
+      },
+    ],
+    [],
+  );
 
-  const closeVideo = () => {
-    setSelectedVideo(null);
-  };
+  const ringPositions = useMemo(
+    () => [
+      { top: "14%", left: "50%", transform: "translate(-50%, -50%)" }, // top
+      { top: "30%", left: "86%", transform: "translate(-50%, -50%)" }, // upper-right
+      { top: "72%", left: "86%", transform: "translate(-50%, -50%)" }, // lower-right
+      { top: "86%", left: "50%", transform: "translate(-50%, -50%)" }, // bottom
+      { top: "72%", left: "14%", transform: "translate(-50%, -50%)" }, // lower-left
+      { top: "30%", left: "14%", transform: "translate(-50%, -50%)" }, // upper-left
+    ],
+    [],
+  );
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
@@ -131,79 +154,126 @@ const TestimonialsSection = () => {
 
         <InView className="mb-12 md:mb-16" y={24}>
           <h3 className="font-display text-center text-2xl font-semibold text-foreground md:text-3xl px-4">
-            Watch What Our Tutors Say
+            Our Intructors
           </h3>
         </InView>
 
-        <div className="mx-auto mb-14 grid max-w-5xl gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {videoTestimonials.map((video, index) => {
-            const thumbnail = video.thumbnail || getYouTubeThumbnail(video.videoUrl);
+        <div className="relative left-1/2 w-[100vw] max-w-[100vw] -translate-x-1/2 px-3 sm:px-4">
+        <InView className="mx-auto mb-14 w-[80vw] max-w-[min(80vw,1600px)]" y={28}>
+          <div className="relative mx-auto grid w-full place-items-center">
+            <div className="relative w-full">
+              <div className="relative mx-auto aspect-square w-full">
+                <div className="absolute inset-0 rounded-[44px] bg-gradient-to-br from-lumitria-orange/28 via-lumitria-gold/14 to-lumitria-orange/12 blur-sm" />
 
-            return (
-              <InView key={video.name} delay={index * 0.08} y={32}>
-                <Card
-                  variant="elevated"
-                  className="group cursor-pointer overflow-hidden border-white/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-glow"
-                  onClick={() => video.videoUrl && handleVideoClick(video.videoUrl)}
-                >
-                  <div className="relative aspect-video overflow-hidden bg-muted">
-                    {thumbnail ? (
-                      <>
-                        <img
-                          src={thumbnail}
-                          alt={`${video.name} testimonial`}
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src =
-                              "https://via.placeholder.com/400x225?text=Video+Testimonial";
-                          }}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-foreground/50 to-transparent transition-colors group-hover:from-foreground/40">
-                          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/95 shadow-glow transition-transform duration-300 group-hover:scale-110 md:h-20 md:w-20">
-                            <Play className="ml-1 h-8 w-8 text-primary-foreground md:h-10 md:w-10" />
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/90 shadow-lg md:h-20 md:w-20">
-                          <Play className="ml-1 h-8 w-8 text-primary-foreground md:h-10 md:w-10" />
-                        </div>
-                      </div>
-                    )}
+                <div className="absolute inset-0 rounded-[44px] border border-white/45 bg-gradient-to-br from-lumitria-orange/72 via-lumitria-orange/58 to-lumitria-gold/38 shadow-soft ring-1 ring-white/25" />
+
+                <div className="absolute left-1/2 top-1/2 w-[92%] max-w-[960px] -translate-x-1/2 -translate-y-1/2">
+                  <div className="relative overflow-hidden rounded-3xl border border-white/25 bg-muted shadow-glow">
+                    <div className="relative aspect-video">
+                      <video
+                        className="h-full w-full object-cover"
+                        src="/video/mr-fidelis-video.mp4"
+                        preload="metadata"
+                        muted
+                        playsInline
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent" />
+
+                      <button
+                        type="button"
+                        onClick={() => setIsVideoOpen(true)}
+                        className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background md:h-20 md:w-20"
+                        aria-label="Play instructor video"
+                      >
+                        <Play className="ml-1 h-8 w-8 md:h-10 md:w-10" />
+                      </button>
+                    </div>
                   </div>
-                  <CardContent className="p-4">
-                    <p className="font-semibold text-foreground md:text-base">{video.name}</p>
-                    <p className="text-sm text-muted-foreground">{video.child}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      <span className="mr-1.5" aria-hidden>
-                        {locationFlag(video.location)}
-                      </span>
-                      {video.location}
-                    </p>
-                  </CardContent>
-                </Card>
-              </InView>
-            );
-          })}
+
+                  <p className="mt-3 text-center text-sm text-muted-foreground">
+                    Tap play to watch our lead instructor.
+                  </p>
+                </div>
+
+                {instructors.map((instructor, idx) => {
+                  const pos = ringPositions[idx] ?? ringPositions[0];
+                  return (
+                    <div
+                      key={instructor.id}
+                      className="absolute"
+                      style={{
+                        top: pos.top,
+                        left: pos.left,
+                        transform: pos.transform,
+                      }}
+                    >
+                      <Card
+                        variant="elevated"
+                        className="h-[196px] w-[196px] rounded-full border-white/40 bg-background/95 p-0 shadow-soft transition-transform duration-300 hover:-translate-y-1 hover:shadow-glow sm:h-[212px] sm:w-[212px] md:h-[232px] md:w-[232px] lg:h-[248px] lg:w-[248px]"
+                      >
+                        <CardContent className="flex h-full w-full flex-col items-center justify-center px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
+                          <div className="relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-full border-2 border-primary/25 bg-gradient-to-br from-lumitria-orange-light to-lumitria-gold-light/60 shadow-soft sm:h-[100px] sm:w-[100px] md:h-[112px] md:w-[112px] lg:h-[120px] lg:w-[120px]">
+                            {instructor.imageSrc ? (
+                              <img
+                                src={instructor.imageSrc}
+                                alt={instructor.name}
+                                className="h-full w-full object-cover object-top"
+                                loading="lazy"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = "none";
+                                }}
+                              />
+                            ) : instructor.placeholder ? (
+                              <div className="flex h-full w-full items-center justify-center text-2xl font-semibold text-muted-foreground sm:text-3xl">
+                                ?
+                              </div>
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center text-base font-bold text-primary sm:text-lg">
+                                {getInitials(instructor.name)}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-3 flex w-full flex-col items-center gap-1">
+                            {instructorTriLines(instructor).map((line) => (
+                              <div
+                                key={line.key}
+                                className={[
+                                  "max-w-full rounded-full border border-white/25 bg-background/80 px-2 py-0.5 text-center leading-tight sm:px-2.5 sm:py-1",
+                                  line.className,
+                                ].join(" ")}
+                              >
+                                <span className="block max-w-full">{line.text}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </InView>
         </div>
 
-        <Dialog open={!!selectedVideo} onOpenChange={(open) => !open && closeVideo()}>
-          <DialogContent className="max-w-4xl w-full border-0 bg-transparent p-0 shadow-none">
+        <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
+          <DialogContent className="max-w-5xl w-full border-0 bg-transparent p-0 shadow-none">
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/20 bg-black shadow-glow">
-              {selectedVideo && (
-                <iframe
-                  src={`${selectedVideo}&autoplay=1`}
+              {isVideoOpen && (
+                <video
                   className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="Video testimonial"
+                  src="/video/mr-fidelis-video.mp4"
+                  controls
+                  autoPlay
+                  playsInline
                 />
               )}
               <button
                 type="button"
-                onClick={closeVideo}
-                className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-background/80 text-foreground backdrop-blur-md transition-colors hover:bg-background"
+                onClick={() => setIsVideoOpen(false)}
+                className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-background/80 text-foreground backdrop-blur-md transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                 aria-label="Close video"
               >
                 <X className="h-6 w-6" />
