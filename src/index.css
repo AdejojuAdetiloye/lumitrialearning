@@ -122,6 +122,8 @@
 
   html {
     scroll-behavior: smooth;
+    /* Prevent horizontal scrollbar from full-bleed sections / off-screen transforms (e.g. instructor wheel). */
+    overflow-x: hidden;
   }
 
   body {

@@ -118,6 +118,24 @@ Use the same `FLUTTERWAVE_SECRET_HASH` as in `server/.env`.
 
 ## 10. Updates after `git push`
 
+SSH into the droplet, then from the app directory run the update script (or the commands below).
+
+**Script (recommended):**
+
+```bash
+cd /var/www/lumitrialearning
+chmod +x deploy/update-production.sh   # first time only
+./deploy/update-production.sh
+```
+
+Frontend-only changes (skip re-seeding the DB):
+
+```bash
+SKIP_SEED=1 ./deploy/update-production.sh
+```
+
+**Manual one-liner (same as before):**
+
 ```bash
 cd /var/www/lumitrialearning
 git pull

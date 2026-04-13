@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote, Play, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -78,8 +79,228 @@ const instructorTriLines = (instructor: Instructor) => {
   return lines;
 };
 
+type InstructorCardSize = "mobile" | "desktop";
+
+const InstructorCircleCard = ({
+  instructor,
+  size,
+}: {
+  instructor: Instructor;
+  size: InstructorCardSize;
+}) => {
+  const isDesktop = size === "desktop";
+  return (
+    <Card
+      variant="elevated"
+      className={
+        isDesktop
+          ? "h-[196px] w-[196px] rounded-full border-white/40 bg-background/95 p-0 shadow-soft transition-transform duration-300 hover:-translate-y-1 hover:shadow-glow sm:h-[212px] sm:w-[212px] md:h-[232px] md:w-[232px] lg:h-[248px] lg:w-[248px]"
+          : "h-[164px] w-[164px] rounded-full border-white/40 bg-background/95 p-0 shadow-soft"
+      }
+    >
+      <CardContent className="flex h-full w-full flex-col items-center justify-center px-2.5 pb-2.5 pt-1.5 sm:px-4 sm:pb-4 md:px-3 md:pb-3 md:pt-2">
+        <div
+          className={
+            isDesktop
+              ? "relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-full border-2 border-primary/25 bg-gradient-to-br from-lumitria-orange-light to-lumitria-gold-light/60 shadow-soft sm:h-[100px] sm:w-[100px] md:h-[112px] md:w-[112px] lg:h-[120px] lg:w-[120px]"
+              : "relative h-[70px] w-[70px] shrink-0 overflow-hidden rounded-full border-2 border-primary/25 bg-gradient-to-br from-lumitria-orange-light to-lumitria-gold-light/60 shadow-soft"
+          }
+        >
+          {instructor.imageSrc ? (
+            <img
+              src={instructor.imageSrc}
+              alt={instructor.name}
+              className="h-full w-full object-cover object-top"
+              loading="lazy"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+          ) : instructor.placeholder ? (
+            <div className="flex h-full w-full items-center justify-center text-xl font-semibold text-muted-foreground sm:text-2xl">
+              ?
+            </div>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-sm font-bold text-primary sm:text-base">
+              {getInitials(instructor.name)}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-2 flex w-full flex-col items-center gap-0.5 md:mt-3 md:gap-1">
+          {instructorTriLines(instructor).map((line) => (
+            <div
+              key={line.key}
+              className={[
+                "max-w-full rounded-full border border-white/25 bg-background/80 px-1.5 py-0.5 text-center leading-tight sm:px-2.5 sm:py-1",
+                !isDesktop && "px-2",
+                line.className,
+              ].join(" ")}
+            >
+              <span className="block max-w-full">{line.text}</span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+/** Time between pair changes (includes wheel animation). */
+const MOBILE_ROTATE_MS = 2800;
+const MOBILE_WHEEL_DURATION = 0.55;
+const MOBILE_WHEEL_EASE = [0.33, 1, 0.68, 1] as const;
+/** Vertical arc offset (px) — simulates motion along the top / bottom of a wheel. */
+const MOBILE_WHEEL_ARC_Y = 56;
+/** Slight roll so cards follow the “rim” (deg). */
+const MOBILE_WHEEL_ROLL = 11;
+const MOBILE_WHEEL_KEY_TIMES = [0, 0.5, 1] as const;
+
+const MobileInstructorsWheel = ({
+  top,
+  bottom,
+  pairIndex,
+  onPlayVideo,
+}: {
+  top: Instructor | undefined;
+  bottom: Instructor | undefined;
+  pairIndex: number;
+  onPlayVideo: () => void;
+}) => {
+  const reduced = useReducedMotion();
+  const transition = reduced
+    ? { duration: 0.05 }
+    : {
+        duration: MOBILE_WHEEL_DURATION,
+        times: [...MOBILE_WHEEL_KEY_TIMES],
+        ease: MOBILE_WHEEL_EASE,
+      };
+
+  const slot =
+    "relative flex min-h-[188px] w-full max-w-full justify-center overflow-x-clip overflow-y-visible py-1";
+
+  return (
+    <div className="flex w-full max-w-full flex-col items-stretch gap-3 overflow-x-clip">
+      <div className={slot}>
+        <AnimatePresence initial={false} mode="sync">
+          {top ? (
+            <motion.div
+              key={`mobile-top-${pairIndex}-${top.id}`}
+              initial={
+                reduced
+                  ? { x: "85vw", opacity: 0.45 }
+                  : {
+                      x: "82vw",
+                      y: 0,
+                      rotate: MOBILE_WHEEL_ROLL,
+                      opacity: 0.45,
+                    }
+              }
+              animate={
+                reduced
+                  ? { x: 0, opacity: 1 }
+                  : {
+                      x: ["82vw", "40vw", 0],
+                      y: [0, -MOBILE_WHEEL_ARC_Y, 0],
+                      rotate: [MOBILE_WHEEL_ROLL, MOBILE_WHEEL_ROLL * 0.35, 0],
+                      opacity: [0.45, 0.78, 1],
+                    }
+              }
+              exit={
+                reduced
+                  ? { x: "-85vw", opacity: 0.45 }
+                  : {
+                      x: [0, "-40vw", "-82vw"],
+                      y: [0, -MOBILE_WHEEL_ARC_Y, 0],
+                      rotate: [0, -MOBILE_WHEEL_ROLL * 0.7, -MOBILE_WHEEL_ROLL],
+                      opacity: [1, 0.72, 0.45],
+                    }
+              }
+              transition={transition}
+              className="flex w-full justify-center"
+            >
+              <InstructorCircleCard instructor={top} size="mobile" />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
+      <div className="mx-auto w-full max-w-full shrink-0">
+        <div className="relative overflow-hidden rounded-2xl border border-white/25 bg-black shadow-glow">
+          <div className="relative flex aspect-video items-center justify-center bg-black">
+            <video
+              className="h-full w-full object-contain object-center"
+              src="/video/mr-fidelis-video.mp4"
+              preload="metadata"
+              muted
+              playsInline
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent" />
+            <button
+              type="button"
+              onClick={onPlayVideo}
+              className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              aria-label="Play instructor video"
+            >
+              <Play className="ml-1 h-7 w-7" />
+            </button>
+          </div>
+        </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          Tap play to watch our lead instructor.
+        </p>
+      </div>
+
+      <div className={slot}>
+        <AnimatePresence initial={false} mode="sync">
+          {bottom ? (
+            <motion.div
+              key={`mobile-bot-${pairIndex}-${bottom.id}`}
+              initial={
+                reduced
+                  ? { x: "-85vw", opacity: 0.45 }
+                  : {
+                      x: "-82vw",
+                      y: 0,
+                      rotate: -MOBILE_WHEEL_ROLL,
+                      opacity: 0.45,
+                    }
+              }
+              animate={
+                reduced
+                  ? { x: 0, opacity: 1 }
+                  : {
+                      x: ["-82vw", "-40vw", 0],
+                      y: [0, MOBILE_WHEEL_ARC_Y, 0],
+                      rotate: [-MOBILE_WHEEL_ROLL, -MOBILE_WHEEL_ROLL * 0.35, 0],
+                      opacity: [0.45, 0.78, 1],
+                    }
+              }
+              exit={
+                reduced
+                  ? { x: "85vw", opacity: 0.45 }
+                  : {
+                      x: [0, "40vw", "82vw"],
+                      y: [0, MOBILE_WHEEL_ARC_Y, 0],
+                      rotate: [0, MOBILE_WHEEL_ROLL * 0.7, MOBILE_WHEEL_ROLL],
+                      opacity: [1, 0.72, 0.45],
+                    }
+              }
+              transition={transition}
+              className="flex w-full justify-center"
+            >
+              <InstructorCircleCard instructor={bottom} size="mobile" />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
 const TestimonialsSection = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [mobilePairIndex, setMobilePairIndex] = useState(0);
 
   const instructors: Instructor[] = useMemo(
     () => [
@@ -135,6 +356,39 @@ const TestimonialsSection = () => {
     [],
   );
 
+  const pairCount = Math.ceil(instructors.length / 2);
+
+  useEffect(() => {
+    if (pairCount <= 1) return;
+    const mqMobile = window.matchMedia("(max-width: 767px)");
+    const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+
+    const sync = () => {
+      if (intervalId !== undefined) {
+        clearInterval(intervalId);
+        intervalId = undefined;
+      }
+      if (!mqMobile.matches || mqReduce.matches) return;
+      intervalId = setInterval(() => {
+        setMobilePairIndex((i) => (i + 1) % pairCount);
+      }, MOBILE_ROTATE_MS);
+    };
+
+    sync();
+    mqMobile.addEventListener("change", sync);
+    mqReduce.addEventListener("change", sync);
+    return () => {
+      if (intervalId !== undefined) clearInterval(intervalId);
+      mqMobile.removeEventListener("change", sync);
+      mqReduce.removeEventListener("change", sync);
+    };
+  }, [pairCount]);
+
+  const mobileTop = instructors[mobilePairIndex * 2];
+  const mobileBottom = instructors[mobilePairIndex * 2 + 1];
+
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
       <div
@@ -158,20 +412,38 @@ const TestimonialsSection = () => {
           </h3>
         </InView>
 
-        <div className="relative left-1/2 w-[100vw] max-w-[100vw] -translate-x-1/2 px-3 sm:px-4">
-        <InView className="mx-auto mb-14 w-[80vw] max-w-[min(80vw,1600px)]" y={28}>
+        <div className="relative left-1/2 w-[100vw] max-w-[100vw] -translate-x-1/2 overflow-x-clip px-3 sm:px-4">
+        <InView className="mx-auto mb-14 w-full max-w-full px-2 md:w-[80vw] md:max-w-[min(80vw,1600px)] md:px-0" y={28}>
           <div className="relative mx-auto grid w-full place-items-center">
-            <div className="relative w-full">
+            {/* Mobile: centered card; wheel slide (top left/right) + 90vw video; pairs rotate */}
+            <div className="relative flex w-full max-w-full justify-center overflow-x-clip md:hidden">
+              <div
+                className="relative w-[min(92vw,480px)] max-w-[92vw] overflow-x-clip overflow-y-visible rounded-[32px] border border-white/45 bg-gradient-to-br from-lumitria-orange/72 via-lumitria-orange/58 to-lumitria-gold/38 px-3 py-5 shadow-soft ring-1 ring-white/25"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <div className="absolute inset-0 -z-10 rounded-[32px] bg-gradient-to-br from-lumitria-orange/28 via-lumitria-gold/14 to-lumitria-orange/12 blur-sm" />
+                <MobileInstructorsWheel
+                  top={mobileTop}
+                  bottom={mobileBottom}
+                  pairIndex={mobilePairIndex}
+                  onPlayVideo={() => setIsVideoOpen(true)}
+                />
+              </div>
+            </div>
+
+            {/* Desktop / tablet: ring layout */}
+            <div className="relative hidden w-full md:block">
               <div className="relative mx-auto aspect-square w-full">
                 <div className="absolute inset-0 rounded-[44px] bg-gradient-to-br from-lumitria-orange/28 via-lumitria-gold/14 to-lumitria-orange/12 blur-sm" />
 
                 <div className="absolute inset-0 rounded-[44px] border border-white/45 bg-gradient-to-br from-lumitria-orange/72 via-lumitria-orange/58 to-lumitria-gold/38 shadow-soft ring-1 ring-white/25" />
 
                 <div className="absolute left-1/2 top-1/2 w-[92%] max-w-[960px] -translate-x-1/2 -translate-y-1/2">
-                  <div className="relative overflow-hidden rounded-3xl border border-white/25 bg-muted shadow-glow">
-                    <div className="relative aspect-video">
+                  <div className="relative overflow-hidden rounded-3xl border border-white/25 bg-black shadow-glow">
+                    <div className="relative flex aspect-video items-center justify-center bg-black">
                       <video
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain object-center"
                         src="/video/mr-fidelis-video.mp4"
                         preload="metadata"
                         muted
@@ -207,48 +479,7 @@ const TestimonialsSection = () => {
                         transform: pos.transform,
                       }}
                     >
-                      <Card
-                        variant="elevated"
-                        className="h-[196px] w-[196px] rounded-full border-white/40 bg-background/95 p-0 shadow-soft transition-transform duration-300 hover:-translate-y-1 hover:shadow-glow sm:h-[212px] sm:w-[212px] md:h-[232px] md:w-[232px] lg:h-[248px] lg:w-[248px]"
-                      >
-                        <CardContent className="flex h-full w-full flex-col items-center justify-center px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
-                          <div className="relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-full border-2 border-primary/25 bg-gradient-to-br from-lumitria-orange-light to-lumitria-gold-light/60 shadow-soft sm:h-[100px] sm:w-[100px] md:h-[112px] md:w-[112px] lg:h-[120px] lg:w-[120px]">
-                            {instructor.imageSrc ? (
-                              <img
-                                src={instructor.imageSrc}
-                                alt={instructor.name}
-                                className="h-full w-full object-cover object-top"
-                                loading="lazy"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.display = "none";
-                                }}
-                              />
-                            ) : instructor.placeholder ? (
-                              <div className="flex h-full w-full items-center justify-center text-2xl font-semibold text-muted-foreground sm:text-3xl">
-                                ?
-                              </div>
-                            ) : (
-                              <div className="flex h-full w-full items-center justify-center text-base font-bold text-primary sm:text-lg">
-                                {getInitials(instructor.name)}
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="mt-3 flex w-full flex-col items-center gap-1">
-                            {instructorTriLines(instructor).map((line) => (
-                              <div
-                                key={line.key}
-                                className={[
-                                  "max-w-full rounded-full border border-white/25 bg-background/80 px-2 py-0.5 text-center leading-tight sm:px-2.5 sm:py-1",
-                                  line.className,
-                                ].join(" ")}
-                              >
-                                <span className="block max-w-full">{line.text}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <InstructorCircleCard instructor={instructor} size="desktop" />
                     </div>
                   );
                 })}
@@ -260,10 +491,10 @@ const TestimonialsSection = () => {
 
         <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
           <DialogContent className="max-w-5xl w-full border-0 bg-transparent p-0 shadow-none">
-            <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/20 bg-black shadow-glow">
+            <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-black shadow-glow">
               {isVideoOpen && (
                 <video
-                  className="h-full w-full"
+                  className="h-full w-full max-h-full max-w-full object-contain object-center"
                   src="/video/mr-fidelis-video.mp4"
                   controls
                   autoPlay
