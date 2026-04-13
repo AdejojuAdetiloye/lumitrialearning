@@ -6,6 +6,9 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { InView } from "@/components/motion/InView";
 import { SectionHeader } from "@/components/home/SectionHeader";
 
+const INSTRUCTOR_VIDEO_POSTER = "/images/video-cover.jpeg";
+const INSTRUCTOR_VIDEO_SRC = "/video/mr-fidelis-video.mp4";
+
 const testimonials = [
   {
     name: "Adaeze Okonkwo",
@@ -146,6 +149,31 @@ const InstructorCircleCard = ({
   );
 };
 
+/** Poster + play — shared by mobile and desktop; opens modal on play. */
+const InstructorVideoPreview = ({ onPlay }: { onPlay: () => void }) => (
+  <div className="relative w-full overflow-hidden rounded-2xl border border-white/25 bg-black shadow-glow md:rounded-3xl">
+    <div className="relative aspect-video w-full">
+      <img
+        src={INSTRUCTOR_VIDEO_POSTER}
+        alt="Lumitria Learning — The Future Starts Here"
+        className="h-full w-full object-cover object-center"
+        loading="lazy"
+        decoding="async"
+        sizes="(max-width: 768px) 92vw, min(92vw, 960px)"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+      <button
+        type="button"
+        onClick={onPlay}
+        className="absolute left-1/2 top-1/2 z-10 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow ring-4 ring-black/10 transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background md:h-16 md:w-16 lg:h-20 lg:w-20"
+        aria-label="Play instructor video"
+      >
+        <Play className="ml-0.5 h-7 w-7 md:h-8 md:w-8 lg:h-10 lg:w-10" />
+      </button>
+    </div>
+  </div>
+);
+
 /** Time between pair changes (includes wheel animation). */
 const MOBILE_ROTATE_MS = 2800;
 const MOBILE_WHEEL_DURATION = 0.55;
@@ -226,26 +254,7 @@ const MobileInstructorsWheel = ({
       </div>
 
       <div className="mx-auto w-full max-w-full shrink-0">
-        <div className="relative overflow-hidden rounded-2xl border border-white/25 bg-black shadow-glow">
-          <div className="relative flex aspect-video items-center justify-center bg-black">
-            <video
-              className="h-full w-full object-contain object-center"
-              src="/video/mr-fidelis-video.mp4"
-              preload="metadata"
-              muted
-              playsInline
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent" />
-            <button
-              type="button"
-              onClick={onPlayVideo}
-              className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-              aria-label="Play instructor video"
-            >
-              <Play className="ml-1 h-7 w-7" />
-            </button>
-          </div>
-        </div>
+        <InstructorVideoPreview onPlay={onPlayVideo} />
         <p className="mt-2 text-center text-xs text-muted-foreground">
           Tap play to watch our lead instructor.
         </p>
@@ -408,7 +417,7 @@ const TestimonialsSection = () => {
 
         <InView className="mb-12 md:mb-16" y={24}>
           <h3 className="font-display text-center text-2xl font-semibold text-foreground md:text-3xl px-4">
-            Our Intructors
+            Our Instructors
           </h3>
         </InView>
 
@@ -440,27 +449,7 @@ const TestimonialsSection = () => {
                 <div className="absolute inset-0 rounded-[44px] border border-white/45 bg-gradient-to-br from-lumitria-orange/72 via-lumitria-orange/58 to-lumitria-gold/38 shadow-soft ring-1 ring-white/25" />
 
                 <div className="absolute left-1/2 top-1/2 w-[92%] max-w-[960px] -translate-x-1/2 -translate-y-1/2">
-                  <div className="relative overflow-hidden rounded-3xl border border-white/25 bg-black shadow-glow">
-                    <div className="relative flex aspect-video items-center justify-center bg-black">
-                      <video
-                        className="h-full w-full object-contain object-center"
-                        src="/video/mr-fidelis-video.mp4"
-                        preload="metadata"
-                        muted
-                        playsInline
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent" />
-
-                      <button
-                        type="button"
-                        onClick={() => setIsVideoOpen(true)}
-                        className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background md:h-20 md:w-20"
-                        aria-label="Play instructor video"
-                      >
-                        <Play className="ml-1 h-8 w-8 md:h-10 md:w-10" />
-                      </button>
-                    </div>
-                  </div>
+                  <InstructorVideoPreview onPlay={() => setIsVideoOpen(true)} />
 
                   <p className="mt-3 text-center text-sm text-muted-foreground">
                     Tap play to watch our lead instructor.
@@ -495,7 +484,7 @@ const TestimonialsSection = () => {
               {isVideoOpen && (
                 <video
                   className="h-full w-full max-h-full max-w-full object-contain object-center"
-                  src="/video/mr-fidelis-video.mp4"
+                  src={INSTRUCTOR_VIDEO_SRC}
                   controls
                   autoPlay
                   playsInline
