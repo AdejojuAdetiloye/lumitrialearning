@@ -11,12 +11,12 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Lumitria | Expert Tutors for Nigerians Living Abroad</title>
+        <title>Lumitria | Expert Tutors for Global Families</title>
         <meta 
           name="description" 
-          content="Quality tutoring services for Nigerians of all ages in the diaspora. Coding, STEM, African culture, and more - taught by passionate Nigerian tutors. Starting at $10 per class, $80 per month." 
+          content="Quality tutoring services for global families worldwide. Coding, STEM, African culture, and more - taught by passionate tutors. Starting at $10 per class, $80 per month." 
         />
-        <meta name="keywords" content="Nigerian tutors, African education, coding classes, STEM tutoring, diaspora education, online tutoring, adult education" />
+        <meta name="keywords" content="global tutors, African education, coding classes, STEM tutoring, online tutoring, adult education" />
         <link rel="canonical" href="https://lumitrialearning.org" />
       </Helmet>
 

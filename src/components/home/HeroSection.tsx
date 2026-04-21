@@ -59,7 +59,7 @@ const HeroSection = () => {
               className="font-display text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.75rem] font-semibold leading-[1.08] tracking-tight text-foreground px-2 sm:px-0"
             >
               Expert Tutors for{" "}
-              <span className="text-gradient bg-[length:200%_auto] animate-gradient">Nigerians</span> Living Abroad
+              <span className="text-gradient bg-[length:200%_auto] animate-gradient">Global Families</span> Worldwide
             </motion.h1>
 
             <motion.p
@@ -69,7 +69,7 @@ const HeroSection = () => {
               className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-[1.7] px-4 sm:px-0"
             >
               Quality education that connects you to your roots. Coding, STEM, African culture, and more — taught by
-              passionate Nigerian tutors.
+              passionate tutors.
             </motion.p>
 
             <motion.div

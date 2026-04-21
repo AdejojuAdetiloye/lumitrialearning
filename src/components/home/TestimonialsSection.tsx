@@ -22,7 +22,7 @@ const testimonials = [
     location: "Toronto, Canada",
     child: "Dad of Amara, 9",
     rating: 5,
-    text: "We tried many tutoring services, but Lumitria understands our needs as a Nigerian family abroad. Amara loves her coding classes!",
+    text: "We tried many tutoring services, but Lumitria understands our needs as a global family abroad. Amara loves her coding classes!",
   },
   {
     name: "Folake Adeyemi",
@@ -422,7 +422,7 @@ const TestimonialsSection = () => {
           eyebrow="Testimonials"
           title={
             <>
-              Loved by <span className="text-gradient">Nigerian Families</span> Worldwide
+              Loved by <span className="text-gradient">Global Families</span> Worldwide
             </>
           }
           description="Join hundreds of families who trust Lumitria to nurture their children's education and cultural connection."

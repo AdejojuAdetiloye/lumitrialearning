@@ -26,7 +26,7 @@ const benefits = [
   {
     icon: Users,
     title: "Expert Tutors",
-    description: "Learn from qualified Nigerian tutors who understand your needs.",
+    description: "Learn from qualified tutors who understand your needs.",
   },
   {
     icon: Award,
@@ -53,9 +53,9 @@ const Pricing = () => {
         <title>Pricing | Lumitria - Affordable Tutoring Plans</title>
         <meta 
           name="description" 
-          content="Age-based tutoring tiers from Rookies to Veteran, with pricing in NGN, USD, CAD, or GBP by country. Secure payments, flexible scheduling, expert Nigerian tutors." 
+          content="Age-based tutoring tiers from Rookies to Veteran, with pricing in NGN, USD, CAD, or GBP by country. Secure payments, flexible scheduling, expert tutors." 
         />
-        <meta name="keywords" content="tutoring prices, online tutoring cost, affordable tutoring, Nigerian tutors pricing, education packages" />
+        <meta name="keywords" content="tutoring prices, online tutoring cost, affordable tutoring, global tutors, education packages" />
         <link rel="canonical" href="https://lumitrialearning.org/pricing" />
       </Helmet>
 

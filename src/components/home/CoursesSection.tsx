@@ -43,7 +43,7 @@ const CoursesSection = () => {
               Courses Designed for <span className="text-gradient">Excellence</span>
             </>
           }
-          description="Expert-led programs that combine quality education with cultural connection, designed for Nigerians of all ages living abroad."
+          description="Expert-led programs that combine quality education with cultural connection, designed for global families worldwide."
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">

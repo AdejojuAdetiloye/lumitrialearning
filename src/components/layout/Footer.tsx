@@ -30,7 +30,7 @@ const Footer = () => {
               <Award className="h-5 w-5 text-accent" aria-hidden />
             </div>
             <span className="max-w-[10rem] text-xs font-medium leading-snug md:text-sm">
-              Expert-vetted Nigerian tutors
+              Expert-vetted tutors
             </span>
           </div>
         </div>
@@ -39,7 +39,7 @@ const Footer = () => {
           <div className="space-y-5">
             <Logo size="sm" />
             <p className="text-sm leading-[1.7] text-background/75">
-              Expert tutors helping Nigerian children abroad excel through quality education and cultural connection.
+              Expert tutors helping global families worldwide excel through quality education and cultural connection.
             </p>
           </div>
 

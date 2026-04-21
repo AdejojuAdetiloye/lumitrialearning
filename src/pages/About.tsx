@@ -20,7 +20,7 @@ const values = [
   {
     icon: Users,
     title: "Cultural Connection",
-    description: "We understand the unique needs of Nigerian families living abroad and help maintain cultural ties.",
+    description: "We understand the unique needs of global families and help maintain meaningful cultural ties.",
   },
   {
     icon: Award,
@@ -40,10 +40,10 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Us | Lumitria - Empowering Nigerians Abroad</title>
+        <title>About Us | Lumitria - Empowering Global Families</title>
         <meta 
           name="description" 
-          content="Learn about Lumitria's mission to provide quality education and cultural connection for Nigerians of all ages living abroad. Expert tutors, personalized learning, and a commitment to excellence." 
+          content="Learn about Lumitria's mission to provide quality education and cultural connection for global families worldwide. Expert tutors, personalized learning, and a commitment to excellence." 
         />
         <link rel="canonical" href="https://lumitrialearning.org/about" />
       </Helmet>
@@ -60,7 +60,7 @@ const About = () => {
                   Our Story
                 </span>
                 <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4 md:mb-6 px-4 sm:px-0 leading-tight">
-                  Empowering Nigerians{" "}
+                  Empowering Global Families{" "}
                   <span className="text-gradient animate-gradient">Worldwide</span>
                 </h1>
                 <p className="text-base md:text-lg text-muted-foreground px-4 sm:px-0 leading-[1.7]">
@@ -81,10 +81,10 @@ const About = () => {
                     </div>
                     <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 md:mb-4">Our Mission</h2>
                     <p className="text-muted-foreground leading-relaxed mb-4">
-                      At Lumitria, we believe that every Nigerian living abroad deserves access to quality education that honors their heritage while preparing them for global success. Our mission is to bridge the gap between cultural identity and academic excellence.
+                      At Lumitria, we believe that every family deserves access to quality education that honors their heritage while preparing them for global success. Our mission is to bridge the gap between cultural identity and academic excellence.
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      We provide expert tutoring services that combine world-class education with meaningful cultural connection, helping students of all ages thrive academically while staying connected to their Nigerian roots.
+                      We provide expert tutoring services that combine world-class education with meaningful cultural connection, helping students of all ages thrive academically while staying connected to their roots.
                     </p>
                   </div>
                   <div>
@@ -93,7 +93,7 @@ const About = () => {
                     </div>
                     <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 md:mb-4">Our Vision</h2>
                     <p className="text-muted-foreground leading-relaxed mb-4">
-                      We envision a world where Nigerians in the diaspora have seamless access to quality education that celebrates their identity, builds their confidence, and prepares them to excel in any field they choose.
+                      We envision a world where global families have seamless access to quality education that celebrates identity, builds confidence, and prepares learners to excel in any field they choose.
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
                       Through personalized learning, cultural enrichment, and expert guidance, we're building a community of confident, well-rounded individuals of all ages who are proud of their heritage and ready for the future.
@@ -180,7 +180,7 @@ const About = () => {
                       <BookOpen className="w-6 h-6 md:w-8 md:h-8 text-primary mx-auto mb-3 md:mb-4" />
                       <h3 className="font-bold text-base md:text-lg text-foreground mb-2">Expert Tutors</h3>
                       <p className="text-xs md:text-sm text-muted-foreground">
-                        All our tutors are highly qualified, experienced, and passionate about teaching Nigerians of all ages.
+                        All our tutors are highly qualified, experienced, and passionate about teaching students of all ages.
                       </p>
                     </CardContent>
                   </Card>
@@ -198,7 +198,7 @@ const About = () => {
                       <Globe className="w-6 h-6 md:w-8 md:h-8 text-accent mx-auto mb-3 md:mb-4" />
                       <h3 className="font-bold text-base md:text-lg text-foreground mb-2">Cultural Connection</h3>
                       <p className="text-xs md:text-sm text-muted-foreground">
-                        We help students maintain their connection to Nigerian culture, language, and traditions.
+                        We help students maintain their connection to culture, language, and traditions.
                       </p>
                     </CardContent>
                   </Card>

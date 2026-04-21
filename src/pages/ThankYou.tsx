@@ -37,7 +37,7 @@ const ThankYou = () => {
   }, []);
 
   // Generate WhatsApp message
-  const whatsappNumber = "2348063356586"; // Nigerian number format
+  const whatsappNumber = "2348063356586"; // WhatsApp number in E.164 format
   const paymentInfo = paymentDetails 
     ? `\nPayment ID: ${paymentDetails.orderId}\nAmount: $${paymentDetails.amount}`
     : `\nOrder Reference: #${orderRef}`;

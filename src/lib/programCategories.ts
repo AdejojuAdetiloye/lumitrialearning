@@ -36,7 +36,7 @@ export const PROGRAM_CATEGORIES: readonly ProgramCategory[] = [
     slug: "culture",
     title: "African Culture",
     description:
-      "Connect with Nigerian heritage through language, history, and traditions. Perfect for all ages.",
+      "Connect with your heritage through language, history, and traditions. Perfect for all ages.",
     ages: "All Ages",
     color: "accent",
     features: ["Yoruba/Igbo/Hausa", "History", "Traditions"],

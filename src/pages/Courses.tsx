@@ -167,7 +167,7 @@ const courses = [
     icon: Palette,
     title: "Yoruba & Igbo",
     description:
-      "Help children connect deeply with Nigerian identity through Yoruba and Igbo language, everyday conversation, and culture.",
+      "Help children connect deeply with their heritage through Yoruba and Igbo language, everyday conversation, and culture.",
     ages: "All Ages",
     color: "primary",
     features: ["Speaking & listening", "Reading & writing", "Culture & traditions"],
@@ -185,7 +185,7 @@ const courses = [
     outcomes: [
       "Ability to greet and hold simple conversations in Yoruba and Igbo",
       "Better listening and pronunciation of key phrases",
-      "Stronger connection to Nigerian roots and family",
+      "Stronger connection to heritage and family",
       "Increased pride and comfort using heritage languages",
     ],
   },
@@ -239,10 +239,10 @@ const Courses = () => {
   return (
     <>
       <Helmet>
-        <title>Our Courses | Lumitria - Expert Tutoring for Nigerians Abroad</title>
+        <title>Our Courses | Lumitria - Expert Tutoring for Global Families</title>
         <meta 
           name="description" 
-          content="Explore our comprehensive courses: Coding & Programming, STEM Excellence, African Culture, and Creative Arts. Expert-led programs designed for Nigerians of all ages living abroad." 
+          content="Explore our comprehensive courses: Coding & Programming, STEM Excellence, African Culture, and Creative Arts. Expert-led programs designed for global families worldwide." 
         />
         <link rel="canonical" href="https://lumitrialearning.org/courses" />
       </Helmet>
@@ -264,7 +264,7 @@ const Courses = () => {
                 </h1>
                 <p className="text-base md:text-lg text-muted-foreground px-4 sm:px-0 leading-[1.7]">
                   Expert-led programs that combine quality education with cultural connection, 
-                  designed for Nigerians of all ages living abroad.
+                  designed for global families worldwide.
                 </p>
               </div>
             </div>
