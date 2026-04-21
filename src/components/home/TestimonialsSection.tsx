@@ -344,26 +344,39 @@ const TestimonialsSection = () => {
         imageSrc: "/images/fidelis.jpeg",
       },
       {
+        id: "mrs-eunice",
+        name: "Mrs Eunice",
+        subject: "Home Economics and Culture",
+        imageSrc: "/images/mrs-ipuole.png",
+      },
+      {
         id: "azegba",
         name: "Azegba James",
         subject: "Igbo",
         imageSrc: "/images/james.png",
       },
+      {
+        id: "mrs-hope",
+        name: "Mrs Hope",
+        subject: "Diction",
+        imageSrc: "/images/hope.jpeg",
+      },
     ],
     [],
   );
 
-  const ringPositions = useMemo(
-    () => [
-      { top: "14%", left: "50%", transform: "translate(-50%, -50%)" }, // top
-      { top: "30%", left: "86%", transform: "translate(-50%, -50%)" }, // upper-right
-      { top: "72%", left: "86%", transform: "translate(-50%, -50%)" }, // lower-right
-      { top: "86%", left: "50%", transform: "translate(-50%, -50%)" }, // bottom
-      { top: "72%", left: "14%", transform: "translate(-50%, -50%)" }, // lower-left
-      { top: "30%", left: "14%", transform: "translate(-50%, -50%)" }, // upper-left
-    ],
-    [],
-  );
+  const ringPositionForIndex = (idx: number, count: number) => {
+    const safeCount = Math.max(1, count);
+    const angle = (idx / safeCount) * Math.PI * 2 - Math.PI / 2; // start at top
+    const radiusPct = safeCount <= 6 ? 36 : safeCount <= 8 ? 39 : 41;
+    const top = 50 + radiusPct * Math.sin(angle);
+    const left = 50 + radiusPct * Math.cos(angle);
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: "translate(-50%, -50%)",
+    } as const;
+  };
 
   const pairCount = Math.ceil(instructors.length / 2);
 
@@ -457,7 +470,7 @@ const TestimonialsSection = () => {
                 </div>
 
                 {instructors.map((instructor, idx) => {
-                  const pos = ringPositions[idx] ?? ringPositions[0];
+                  const pos = ringPositionForIndex(idx, instructors.length);
                   return (
                     <div
                       key={instructor.id}
