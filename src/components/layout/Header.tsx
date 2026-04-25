@@ -74,8 +74,8 @@ const Header = () => {
                   className={cn(
                     "group relative text-sm font-medium py-2 transition-colors duration-300",
                     active
-                      ? "text-foreground font-semibold"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-white font-semibold"
+                      : "text-white/80 hover:text-white"
                   )}
                 >
                   {link.name}
@@ -94,14 +94,18 @@ const Header = () => {
             {user ? (
               <>
                 <Link to={dashboardHrefForRole(user.role)}>
-                  <Button variant="outline" size="lg" className="rounded-full border-primary/30 bg-background/40 backdrop-blur-sm">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full border-white/20 bg-black/30 text-white backdrop-blur-sm hover:bg-black/40 hover:text-white"
+                  >
                     Dashboard
                   </Button>
                 </Link>
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="rounded-full"
+                  className="rounded-full text-white/85 hover:text-white hover:bg-white/10"
                   onClick={() => {
                     logout();
                     navigate("/");
@@ -113,7 +117,7 @@ const Header = () => {
             ) : (
               <>
                 <Link to="/auth/login">
-                  <Button variant="ghost" size="lg" className="rounded-full font-medium">
+                  <Button variant="ghost" size="lg" className="rounded-full font-medium text-white/85 hover:text-white hover:bg-white/10">
                     Log in
                   </Button>
                 </Link>
@@ -128,7 +132,7 @@ const Header = () => {
 
           <button
             type="button"
-            className="md:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground backdrop-blur-md"
+            className="md:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-black/30 text-white backdrop-blur-md hover:bg-black/40"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -144,7 +148,7 @@ const Header = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="md:hidden overflow-hidden border-t border-border/40"
+              className="md:hidden overflow-hidden border-t border-white/10"
             >
               <motion.nav
                 initial={{ opacity: 0, y: -8 }}
@@ -169,8 +173,8 @@ const Header = () => {
                         className={cn(
                           "block rounded-xl px-4 py-3.5 text-base font-medium transition-colors",
                           active
-                            ? "bg-primary/12 text-primary font-semibold ring-1 ring-primary/25"
-                            : "text-foreground hover:bg-primary/8"
+                            ? "bg-white/10 text-white font-semibold ring-1 ring-white/15"
+                            : "text-white/85 hover:bg-white/10 hover:text-white"
                         )}
                         onClick={() => setIsMenuOpen(false)}
                       >

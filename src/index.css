@@ -175,11 +175,11 @@
   }
 
   .lux-nav-blur {
-    @apply border-b border-border/30 bg-background/65 backdrop-blur-xl backdrop-saturate-150;
+    @apply border-b-0 bg-[#0b0b0f]/70 backdrop-blur-xl backdrop-saturate-150;
   }
 
   .lux-nav-blur-scrolled {
-    @apply border-border/50 bg-background/80 shadow-soft;
+    @apply border-b-0 bg-[#0b0b0f]/85 shadow-soft;
   }
 
   .text-gradient {

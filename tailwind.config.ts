@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['"Inter"', "system-ui", "sans-serif"],
         display: ['"Inter"', "system-ui", "sans-serif"],
+        marker: ['"Permanent Marker"', '"Inter"', "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

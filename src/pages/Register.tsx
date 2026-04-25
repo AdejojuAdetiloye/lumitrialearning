@@ -2,9 +2,9 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthVideoBackground from "@/components/layout/AuthVideoBackground";
 import { Button } from "@/components/ui/button";
-import { UserPlus, LayoutDashboard, CreditCard, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Register = () => {
   return (
@@ -18,77 +18,51 @@ const Register = () => {
         <link rel="canonical" href="https://lumitrialearning.org/register" />
       </Helmet>
 
-      <div className="lux-auth">
+      <div className="lux-auth relative min-h-screen flex flex-col overflow-hidden bg-[#0b0b0f]">
+        <AuthVideoBackground src="/video/lumitra-auth-video.mp4" />
         <Header />
-        <main className="flex-1 pt-20 md:pt-24 pb-16">
-          <div className="container mx-auto px-4 sm:px-6 max-w-lg">
-            <div className="text-center mb-8">
-              <h1 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">Get started</h1>
-              <p className="text-muted-foreground mt-3 text-sm sm:text-base leading-[1.7]">
-                Create a <strong className="text-foreground font-semibold">parent account</strong> first. You&apos;ll add
-                your child and choose subjects when you pay — all inside your dashboard, not on this page.
+        <main className="relative z-10 flex-1 flex items-center justify-center px-4 pb-10 pt-24 md:pt-28">
+          <div className="w-full max-w-lg">
+            <div className="rounded-3xl border border-white/15 bg-black/35 p-6 shadow-card backdrop-blur-2xl sm:p-8">
+              <div className="text-center space-y-3">
+                <h1 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+                  Get started
+                </h1>
+                <p className="text-white/75 text-sm sm:text-base leading-[1.7]">
+                  Create a <strong className="text-white font-semibold">parent account</strong> first. You&apos;ll add
+                  your child and choose subjects when you pay — all inside your dashboard.
+                </p>
+              </div>
+
+              <div className="mt-7 flex flex-col gap-3">
+                <Button variant="hero" size="lg" className="w-full" asChild>
+                  <Link to="/auth/register">
+                    Create parent account
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full border-white/20 bg-black/20 text-white hover:bg-black/30 hover:text-white"
+                  asChild
+                >
+                  <Link to="/auth/login">Already have an account? Sign in</Link>
+                </Button>
+              </div>
+
+              <p className="text-center text-xs text-white/60 mt-7">
+                Questions? Visit{" "}
+                <Link to="/pricing" className="text-white/85 hover:underline">
+                  Pricing
+                </Link>{" "}
+                or{" "}
+                <Link to="/courses" className="text-white/85 hover:underline">
+                  Courses
+                </Link>
+                .
               </p>
             </div>
-
-            <Card variant="elevated" className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-lg">How it works</CardTitle>
-                <CardDescription>Three quick steps after you sign up</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm text-muted-foreground">
-                <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <UserPlus className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">1. Register</p>
-                    <p>Create your account with your name, email, and country for pricing.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <LayoutDashboard className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">2. Open your dashboard</p>
-                    <p>Enter your child&apos;s details, birth date, and pick the subject(s) you want.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <CreditCard className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">3. Pay securely</p>
-                    <p>Checkout with Flutterwave in your region&apos;s currency. Your child appears on the dashboard right after payment.</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="flex flex-col gap-3">
-              <Button variant="hero" size="lg" className="w-full" asChild>
-                <Link to="/auth/register">
-                  Create parent account
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" className="w-full" asChild>
-                <Link to="/auth/login">Already have an account? Sign in</Link>
-              </Button>
-            </div>
-
-            <p className="text-center text-xs text-muted-foreground mt-8">
-              Questions? Visit{" "}
-              <Link to="/pricing" className="text-primary hover:underline">
-                Pricing
-              </Link>{" "}
-              or{" "}
-              <Link to="/courses" className="text-primary hover:underline">
-                Courses
-              </Link>
-              .
-            </p>
           </div>
         </main>
         <Footer />
